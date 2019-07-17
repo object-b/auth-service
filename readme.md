@@ -1,3 +1,5 @@
+Панель администратора + авторизационное API
+
 ```
 git clone
 
@@ -11,7 +13,7 @@ chmod -R 777 storage bootstrap/cache
 
 php artisan key:generate
 
-php artisan migrate
+Настроить DB_ константы в .env
 
-Настройить DB_ значения в .env
+php artisan migrate
 ```

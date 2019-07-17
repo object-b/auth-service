@@ -13,17 +13,18 @@ class UserController extends Controller
     public $successStatus = 200;
     
     public function login()
-    { 
+    {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) { 
+            // user credentials are correct. Issue a token and use it in next requests
             $user = Auth::user(); 
             $success['access_token'] =  $user->createToken('My Token')->accessToken; 
             
-            return response()->json(['success' => $success], $this->successStatus); 
+            return response()->json(['data' => $success], $this->successStatus); 
         } else {
-            return response()->json(['error' => 'Unauthorised'], 401); 
-        } 
+            // invalid credentials, act accordingly
+            return response()->json(['message' => 'Пользователь не существует. Пожалуйста, проверьте правильность ввода данных.'], 401); 
+        }
     }
-
     
     public function register(Request $request) 
     { 
@@ -32,11 +33,11 @@ class UserController extends Controller
             'email' => 'required|email|unique:users', 
             'password' => 'required', 
         ], [
-            'email.unique' => 'Такой email уже зарегистрирован в системе',
+            'email.unique' => 'Такой адрес электронной почты уже зарегистрирован в системе.',
         ]);
         
         if ($validator->fails()) { 
-            return response()->json(['error' => $validator->errors()->first()], 401);
+            return response()->json(['message' => $validator->errors()->first()], 401);
         }
         
         $input = $request->all(); 
@@ -47,9 +48,8 @@ class UserController extends Controller
         $success['access_token'] =  $user->createToken('My Token')->accessToken; 
         $success['name'] =  $user->name;
         
-        return response()->json(['success' => $success], $this->successStatus); 
+        return response()->json(['data' => $success], $this->successStatus); 
     }
-
     
     public function details() 
     { 
