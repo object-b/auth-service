@@ -17,3 +17,9 @@ php artisan key:generate
 
 php artisan migrate
 ```
+
+Возможно потребуется настройка laravel passport
+
+```
+php artisan passport:install
+```

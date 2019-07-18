@@ -17,9 +17,12 @@ class UserController extends Controller
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) { 
             // user credentials are correct. Issue a token and use it in next requests
             $user = Auth::user(); 
-            $success['access_token'] =  $user->createToken('My Token')->accessToken; 
+            $success['access_token'] =  $user->createToken('My Token')->accessToken;
+
+            $user->api_token = $success['access_token'];
+            $user->save();
             
-            return response()->json(['data' => $success], $this->successStatus); 
+            return response()->json(['data' => $success], $this->successStatus);
         } else {
             // invalid credentials, act accordingly
             return response()->json(['message' => 'Пользователь не существует. Пожалуйста, проверьте правильность ввода данных.'], 401); 
@@ -28,33 +31,42 @@ class UserController extends Controller
     
     public function register(Request $request) 
     { 
-        $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
-            'email' => 'required|email|unique:users', 
-            'password' => 'required', 
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
         ], [
             'email.unique' => 'Такой адрес электронной почты уже зарегистрирован в системе.',
         ]);
         
-        if ($validator->fails()) { 
+        if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()->first()], 401);
         }
         
-        $input = $request->all(); 
-        $input['password'] = bcrypt($input['password']); 
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
         
-        $user = User::create($input); 
+        $user = User::create($input);
         
-        $success['access_token'] =  $user->createToken('My Token')->accessToken; 
-        $success['name'] =  $user->name;
+        $success['access_token'] = $user->createToken('My Token')->accessToken; 
+        $success['name'] = $user->name;
         
-        return response()->json(['data' => $success], $this->successStatus); 
+        return response()->json(['data' => $success], $this->successStatus);
+    }
+
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $request->user()->token()->delete();
+        }
+        
+        return response()->json(['message' => 'User logged out.'], 200);
     }
     
-    public function details() 
+    public function details()
     { 
-        $user = Auth::user(); 
+        $user = Auth::user();
         
-        return response()->json(['success' => $user], $this->successStatus); 
+        return response()->json(['data' => $user], $this->successStatus); 
     } 
 }
