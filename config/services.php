@@ -44,4 +44,11 @@ return [
         ],
     ],
 
+    // We will use Socialite just for retrieving user details from an access token so we can fill client_id, client_secret, redirect with empty strings (not NULL) because they won’t be used in our flow.
+    'facebook' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => '',
+    ],
+
 ];
