@@ -51,4 +51,10 @@ return [
         'redirect' => '',
     ],
 
+    'vkontakte' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => '',
+    ],
+
 ];

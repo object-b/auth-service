@@ -16,8 +16,9 @@ class SocialAccountsService
      * 
      * @return User
      */
-    public function findOrCreate(ProviderUser $providerUser, string $provider): User
+    public function findOrCreateUser(ProviderUser $providerUser, string $provider): User
     {
+        dd(1);
         $linkedSocialAccount = LinkedSocialAccount::where('provider_name', $provider)
             ->where('provider_id', $providerUser->getId())
             ->first();
@@ -33,8 +34,7 @@ class SocialAccountsService
 
             if (!$user) {
                 $user = User::create([
-                    'first_name' => $providerUser->getName(),
-                    'last_name' => $providerUser->getName(),
+                    'name' => $providerUser->getName(),
                     'email' => $providerUser->getEmail(),
                 ]);
             }
