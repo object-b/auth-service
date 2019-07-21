@@ -23,9 +23,15 @@ php artisan migrate
 ```
 php artisan passport:install
 ```
-
+---
 После смены конфига следует запускать
 
 ```
 php artisan config:cache
+```
+
+При странных ситуациях
+
+```
+php composer.phar dump-auto
 ```

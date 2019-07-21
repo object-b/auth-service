@@ -16,9 +16,8 @@ class SocialAccountsService
      * 
      * @return User
      */
-    public function findOrCreateUser(ProviderUser $providerUser, string $provider): User
+    public static function findOrCreateUser(ProviderUser $providerUser, string $provider): User
     {
-        dd(1);
         $linkedSocialAccount = LinkedSocialAccount::where('provider_name', $provider)
             ->where('provider_id', $providerUser->getId())
             ->first();
@@ -27,15 +26,17 @@ class SocialAccountsService
             return $linkedSocialAccount->user;
         } else {
             $user = null;
+            // У вконтакте email не выдается по запросу, он приходит с токеном
+            $email = $providerUser->getEmail();
 
-            if ($email = $providerUser->getEmail()) {
+            if ($email) {
                 $user = User::where('email', $email)->first();
             }
 
             if (!$user) {
                 $user = User::create([
                     'name' => $providerUser->getName(),
-                    'email' => $providerUser->getEmail(),
+                    'email' => $email,
                 ]);
             }
 
