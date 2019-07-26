@@ -22,6 +22,7 @@ php artisan migrate
 
 ```
 php artisan passport:install
+php artisan migrate
 ```
 ---
 После смены конфига следует запускать
