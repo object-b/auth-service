@@ -13,7 +13,7 @@ chmod -R 777 storage bootstrap/cache
 
 php artisan key:generate
 
-Настроить DB_ константы в .env
+Настроить DB_ и APP_URL константы в .env
 
 php artisan migrate
 ```
@@ -31,7 +31,7 @@ php artisan migrate
 php artisan config:cache
 ```
 
-При странных ситуациях
+При странных ситуациях 🤯
 
 ```
 php composer.phar dump-auto
