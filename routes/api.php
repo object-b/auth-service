@@ -16,10 +16,3 @@ use Illuminate\Http\Request;
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::post('social', 'API\UserController@social');
-
-Route::group(['middleware' => 'auth:api'], function() {
-    Route::post('token', 'API\UserController@updateApiToken');
-    Route::post('update', 'API\UserController@updateUser');
-    Route::get('details', 'API\UserController@details');
-    Route::post('logout', 'API\UserController@logout');
-});

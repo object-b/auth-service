@@ -10,10 +10,11 @@ use App\Models\LinkedSocialAccount;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
+    use HasApiTokens;
 
-    protected $guarded = [
-        'id'
+    protected $fillable = [
+        'name', 'email', 'password', 'api_key'
     ];
 
     /**
