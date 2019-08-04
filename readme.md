@@ -22,11 +22,6 @@ php artisan key:generate
 php artisan migrate
 ```
 ---
-*Возможно* потребуется дополнительная настройка laravel passport для oauth2
-
-```
-php artisan passport:install
-```
 
 После смены конфига следует запускать
 
@@ -39,3 +34,5 @@ php artisan config:cache
 ```
 php composer.phar dump-auto
 ```
+
+По вопросам админки обращаться к rvlasenko.
