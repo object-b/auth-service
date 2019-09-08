@@ -71,7 +71,7 @@ class UserController extends Controller
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => bcrypt($input['password']),
-            'api_key' => uniqid(base64_encode(str_random(20)))
+            'api_key' => md5(str_random(30))
         ]);
         // $user->api_token = $user->createToken('My Token')->accessToken; 
         // $user->save();
